@@ -1,0 +1,17 @@
+#!/bin/bash
+MSG_FILE=$1
+FILE_CONTENT="$(cat $MSG_FILE)"
+# Initialize constants here
+export REGEX='^(DE[0-9]+:|US[0-9]+:|Refactor)'
+export ERROR_MSG="Commit message format must match regex \"${REGEX}\""
+NAME=$(git branch | grep '*' | sed 's/* //')
+echo "$NAME"
+if [[ $FILE_CONTENT =~ $REGEX ]]; then
+ echo "Good commit!"
+else
+  echo "Bad commit \"$FILE_CONTENT\""
+ echo $ERROR_MSG
+ exit 1
+fi
+exit 0
+
